@@ -51,12 +51,12 @@ def lync(domainname):
 		paths = f.readlines()
 		for line in paths:
 			line = line.strip()
-			target = str(ok[0]) + '/' + str(line)
+			target = str(forbidden[0]) + '/' + str(line)
 			print("\n" + target)
 			url_request(target)
 	print("These are the identified 200 OK: " + Fore.GREEN + str(ok) + Style.RESET_ALL)
 	print("These are the identified 401 Access Denied: " + Fore.GREEN + Fore.GREEN + str(access_denied) + Style.RESET_ALL)
-	print('\n'.join + "These are the identified 403 Forbidden: " + Fore.GREEN + str(forbidden) + Style.RESET_ALL)
+	print("These are the identified 403 Forbidden: " + Fore.GREEN + str(forbidden) + Style.RESET_ALL)
 	
 
 
@@ -73,7 +73,7 @@ def url_request(url):
 
 		response.info().headers
 		header = urllib2.urlopen(target)
-		print(response.info())
+#		print(response.info())
 		print(response.geturl() + " - URL")
 		print(Fore.GREEN + str(response.getcode()) + Style.RESET_ALL + " - HTTP response code")
 		if response.getcode() == 200:
@@ -85,7 +85,7 @@ def url_request(url):
 		error = str(e)
 		print(Fore.RED + error + Style.RESET_ALL)
 		if error == "HTTP Error 403: Forbidden":
-			print("Forbidden try something else")
+#			print("Forbidden try something else")
 			forbidden.append(url)
 			print (forbidden)
 
@@ -96,7 +96,7 @@ def url_request(url):
 
 
 		else:
-			print("Invalid URL")
+#			print("Invalid URL")
 			invalid_url.append(url)
 	
 
