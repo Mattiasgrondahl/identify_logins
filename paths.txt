@@ -1,0 +1,15 @@
+webticket
+webticket/webticketservice.svc
+webticket/webticketservice.svc/mex
+abs
+meet
+autodiscover
+lws
+owa
+exchange
+ews
+ews/exchange.asmx
+ecp
+autodiscover
+autodiscover/autodiscover.asmx
+blaha
