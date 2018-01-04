@@ -14,7 +14,9 @@ discover.py -d domain.com
 
 #Installation
 git clone https://github.com/Mattiasgrondahl/identify_logins.git
+
 cd identify_logins
+
 pip install -r requirements.txt
 
 Requirements
