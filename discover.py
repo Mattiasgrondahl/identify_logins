@@ -49,6 +49,7 @@ def status():
 		print("403 Forbidden: " + Fore.GREEN + str(item) + Style.RESET_ALL)
 	for item in not_found:
 		#print("404 Not Found: " + Fore.GREEN + str(item) + Style.RESET_ALL)
+		pass
 	for item in internal_server_error:
 		print("500 Internal Server Error: " + Fore.GREEN + str(item) + Style.RESET_ALL)
 
