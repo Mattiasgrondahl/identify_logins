@@ -8,8 +8,15 @@ lws
 owa
 exchange
 ews
-ews/exchange.asmx
+ews/exchange
 ecp
 autodiscover
+autodiscover/autodiscover
 autodiscover/autodiscover.asmx
-blaha
+admin
+rdweb
+adfs
+adfs/ls
+adfs/ls/idpinitiatedsign.aspx
+
+
