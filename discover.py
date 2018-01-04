@@ -13,7 +13,9 @@ Copyright (c) 2018, Mattias Grondahl All rights reserved.
 #import sys
 import argparse
 import urllib2
+import sys
 from colorama import Fore, Back, Style, init
+import dns
 init()
 
 
@@ -27,47 +29,57 @@ invalid_url = [];
 all_lists = [ok, access_denied, forbidden, not_found, internal_server_error]
 valid_url = [];
 
+def format():
+	header = u"{0:<30}{1:>18}{2:>20}{3:>40}{4:>30}".format('HTTP', 'Hostname')
+	print(header)
+	print("-"*len(header))
+	for HTTP, Hostname in whois_list:
+		print(u"{0:<30}{1:>18}{2:>20}{3:>40}{4:>30}".format(Hostname, str(IpAddress), str(Prefix), str(Owner), str(ASN)))
+
 def status():
 	print(Back.CYAN + "\nStatus :" + Style.RESET_ALL)
 	print(Fore.MAGENTA + "---------------------------------------------------------------" + Style.RESET_ALL)
+	status = []
 	for item in ok:
 		print("200 OK: " + Fore.GREEN + Fore.GREEN + str(item) + Style.RESET_ALL)
 	for item in access_denied:
 		print("401 Access Denied: " + Fore.GREEN + Fore.GREEN + str(item) + Style.RESET_ALL + Fore.RED + " 		Possible login found!" + Style.RESET_ALL)
+		#status.append([401, item])
 	for item in forbidden:
 		print("403 Forbidden: " + Fore.GREEN + str(item) + Style.RESET_ALL)
 	for item in not_found:
-		print("404 Not Found: " + Fore.GREEN + str(item) + Style.RESET_ALL)
+		#print("404 Not Found: " + Fore.GREEN + str(item) + Style.RESET_ALL)
 	for item in internal_server_error:
 		print("500 Internal Server Error: " + Fore.GREEN + str(item) + Style.RESET_ALL)
 
 def lync(domainname):
+	#ripe.asn(ip)
 	filename = "discover.txt"
 	paths = "paths.txt"
-	print ("Checking lync avalability for domain: " + Fore.RED + domainname + Style.RESET_ALL)
+	print ("Starting discovery for domain: " + Fore.RED + domainname + Style.RESET_ALL)
 	print ("\nThis will check the hostnames in: " + Fore.GREEN + filename + Style.RESET_ALL + "\n")
 	print ("It will then use the paths from : " + Fore.GREEN + paths + Style.RESET_ALL + "\n")
-	with open(filename) as f:
-		lyncdiscover = f.readlines()
-		for line in lyncdiscover:
-			line = line.strip()
-			target = str(line) + ('.') + str(domainname)
-#			print("\n" + target)
-			url_request(target)
+# 	with open(filename) as f:
+# 		lyncdiscover = f.readlines()
+# 		for line in lyncdiscover:
+# 			line = line.strip()
+# 			target = str(line) + ('.') + str(domainname)
+# #			print("\n" + target)
+# 			url_request(target)
 	
-	status()
+# 	status()
 
 	filename = "paths.txt"
 	with open(filename) as f:
 		paths = f.readlines()
 		for line in paths:
 			line = line.strip()
-			for valid in valid_url:
-				target = str(valid) + '/' + str(line)
+			target = str(domainname) + '/' + str(line)
 			print(target)
 			url_request(target)
 	status()
-	
+
+		
 
 def url_request(url):
 	
@@ -115,13 +127,25 @@ def url_request(url):
 
 def main():
 
-	parser = argparse.ArgumentParser(description="Lync test for NTLM")
-	parser.add_argument("-d", "--domainname", help="the domain name to check")
+	parser = argparse.ArgumentParser(description="Discovery tool")
+	parser.add_argument("-d", "--domainname", help="the domainname to check")
 	parser.add_argument("-u", "--url", help="the url to check")
 	args = parser.parse_args()
 	domainname = args.domainname
 	url = args.url
-	lync(domainname)
+	
+
+		#Print Help
+	if (args.domainname == None):
+		parser.print_help()
+		sys.exit(1)
+
+	#dns.dns(domainname)	
+	valid_targets = dns.dns(domainname)
+	for i in valid_targets:
+		lync(i)
+	#print(valid_targets)
+	#lync(domainname)
 
 if __name__ == '__main__':
     main()

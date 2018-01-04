@@ -1,6 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+'''
+Author: Mattuas Grondahl
+Date: Januari 2018
+Filename: whois.py
+Description: OSINT tool
+
+Copyright (c) 2018, Mattias Grondahl All rights reserved.
+
+'''
 
 '''
 Requirements
@@ -12,6 +21,7 @@ ipaddr
 
 from cymruwhois import Client
 import argparse
+import sys
 from ripe import ripe, asn
 
 whois_list = []
@@ -34,7 +44,6 @@ def main():
 	usage = '''usage: %(prog)s [-ip 8.8.8.8] '''
 	parser = argparse.ArgumentParser(usage=usage)
 	parser = argparse.ArgumentParser(description="This script will lookup the owner of a given ipaddress")
-#	parser.add_argument("-d", "--domainname", help="the domain name to check")
 	parser.add_argument("-ipaddress", action="store", dest="ipaddress", default=None, help="the ipaddress to check")
 	parser.add_argument('--version', action='version', version='%(prog)s 0.01a')
 	args = parser.parse_args()
@@ -43,7 +52,7 @@ def main():
 	#Print Help
 	if (args.ipaddress == None):
 		parser.print_help()
-		#sys.exit(1)
+		sys.exit(1)
 
 	whois(ipaddress)
 	ip = ipaddress
